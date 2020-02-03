@@ -1,8 +1,15 @@
-'use strict';
+'use strict'
 
 const Route = use('Route')
 
 Route.post('users', 'UserController.store').validator('User')
+Route.get('users', 'UserController.index')
+Route.delete('users/:id', 'UserController.destroy')
+
+Route.post('administrators', 'AdministratorController.store').validator('Administrator')
+Route.put('administrators/:id', 'AdministratorController.update')
+Route.delete('administrators/:id', 'AdministratorController.destroy')
+Route.get('administrators', 'AdministratorController.index')
 
 Route.post('sessions', 'SessionController.store').validator('Session')
 

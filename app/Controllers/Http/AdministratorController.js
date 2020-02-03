@@ -1,12 +1,6 @@
 'use strict'
-
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with administrators
- */
+const Administrator = use('App/Models/Administrator')
+const stringWords = require('../../utils/StringWords')
 class AdministratorController {
   /**
    * Show a list of all administrators.
@@ -18,18 +12,8 @@ class AdministratorController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new administrator.
-   * GET administrators/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    const administrators = await Administrator.query().orderBy('id', 'asc').fetch()
+    return administrators
   }
 
   /**
@@ -41,6 +25,13 @@ class AdministratorController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const { username, email, password } = request.all()
+    const administrator = await Administrator.create({
+      username: stringWords(username),
+      email: email.toLowerCase(),
+      password
+    })
+    return administrator
   }
 
   /**
@@ -76,6 +67,17 @@ class AdministratorController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const administrator = await Administrator.find(params.id)
+    const data = request.all()
+
+    if (data.username) {
+      data.username = stringWords(data.username)
+    }
+
+    administrator.merge(data)
+    await administrator.save()
+
+    return administrator
   }
 
   /**
@@ -87,6 +89,9 @@ class AdministratorController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const administrator = await Administrator.find(params.id)
+    await administrator.delete()
+    return true
   }
 }
 

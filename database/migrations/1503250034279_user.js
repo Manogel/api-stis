@@ -9,7 +9,7 @@ class UserSchema extends Schema {
       table.increments()
       table.string('name', 100).notNullable()
       table.date('birt_date').notNullable()
-      table.integer('sex').notNullable()
+      table.boolean('sex').notNullable()
       table.timestamps()
     })
   }
