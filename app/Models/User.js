@@ -6,11 +6,16 @@
 const Model = use('Model')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
-const Hash = use('Hash')
+const moment = require('moment')
+const stringWords = require('../utils/StringWords')
 
 class User extends Model {
   static get computed () {
     return ['genre', 'age']
+  }
+
+  getBirtDate (birt_date) {
+    return moment(birt_date).format('DD/MM/YYYY')
   }
 
   getGenre ({ sex }) {
@@ -34,6 +39,15 @@ class User extends Model {
     }
 
     return age < 0 ? 0 : age
+  }
+
+  setName (name) {
+    return stringWords(name)
+  }
+
+  setBirtDate (birt_date) {
+    console.log(birt_date)
+    return moment(birt_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
   }
 }
 

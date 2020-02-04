@@ -1,6 +1,5 @@
 'use strict'
 const User = use('App/Models/User')
-const stringWords = require('../../utils/StringWords')
 
 class UserController {
   async index ({ request, response, view }) {
@@ -10,9 +9,7 @@ class UserController {
 
   async store ({ request }) {
     const data = request.only(['name', 'birt_date', 'sex'])
-    const user = await User.create(
-      { ...data, name: stringWords(data.name) }
-    )
+    const user = await User.create(data)
     return user
   }
 

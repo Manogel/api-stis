@@ -14,7 +14,7 @@ class User {
   get rules () {
     return {
       name: 'required',
-      birt_date: 'date',
+      birt_date: 'required',
       sex: 'boolean'
     }
   }

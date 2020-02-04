@@ -27,8 +27,8 @@ class AdministratorController {
   async store ({ request, response }) {
     const { username, email, password } = request.all()
     const administrator = await Administrator.create({
-      username: stringWords(username),
-      email: email.toLowerCase(),
+      username,
+      email,
       password
     })
     return administrator
@@ -69,10 +69,6 @@ class AdministratorController {
   async update ({ params, request, response }) {
     const administrator = await Administrator.find(params.id)
     const data = request.all()
-
-    if (data.username) {
-      data.username = stringWords(data.username)
-    }
 
     administrator.merge(data)
     await administrator.save()

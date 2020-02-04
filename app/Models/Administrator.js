@@ -5,6 +5,7 @@ const Model = use('Model')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
+const stringWords = require('../utils/StringWords')
 
 class Administrator extends Model {
   static boot () {
@@ -19,6 +20,14 @@ class Administrator extends Model {
 
   tokens () {
     return this.hasMany('App/Models/Token')
+  }
+
+  setUsername (username) {
+    return stringWords(username)
+  }
+
+  setEmail (email) {
+    return email.toLowerCase()
   }
 }
 
