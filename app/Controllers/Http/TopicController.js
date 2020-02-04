@@ -63,6 +63,12 @@ class TopicController {
     return topic
   }
 
+  async show ({ params }) {
+    const topic = await Topic.findOrFail(params.id)
+    await topic.load('files')
+    return topic
+  }
+
   /**
    * Delete a topic with id.
    * DELETE topics/:id

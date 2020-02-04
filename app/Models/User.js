@@ -14,6 +14,10 @@ class User extends Model {
     return ['genre', 'age']
   }
 
+  static get hidden () {
+    return ['created_at', 'updated_at']
+  }
+
   getBirtDate (birt_date) {
     return moment(birt_date).format('DD/MM/YYYY')
   }

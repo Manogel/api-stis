@@ -9,8 +9,16 @@ class File extends Model {
     return ['url']
   }
 
+  static get hidden () {
+    return ['created_at', 'updated_at', 'file']
+  }
+
   getUrl ({ file }) {
     return `${Env.get('APP_URL')}/files/${file}`
+  }
+
+  topic () {
+    return this.belongsTo('App/Models/Topic')
   }
 }
 
