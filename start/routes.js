@@ -37,6 +37,8 @@ Route.delete('files/:id', 'FileController.destroy')
 
 Route.post('topics/:id/files', 'FileTopicController.store')
 
+Route.get('topics/:id/view', 'ViewTopicController.store')
+
 Route.get('files/:name', 'FileController.show')
 
 Route.group(() => {
