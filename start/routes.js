@@ -19,13 +19,7 @@ Route.resource('references', 'ReferenceController').apiOnly().validator(new Map(
   ])
 )
 
-Route.resource('topics', 'TopicController').apiOnly().apiOnly().validator(new Map(
-  [
-    [
-      ['topics.store'], ['Topic']
-    ]
-  ])
-)
+Route.resource('topics', 'TopicController').apiOnly()
 
 Route.post('sessions', 'SessionController.store').validator('Session')
 
@@ -36,8 +30,15 @@ Route.put('passwords', 'ForgotPasswordController.update').validator(
   'ResetPassword'
 )
 
+Route.post('files', 'FileController.store')
+Route.get('files', 'FileController.index')
+Route.put('files/:id', 'FileController.update')
+Route.delete('files/:id', 'FileController.destroy')
+
+Route.post('topics/:id/files', 'FileTopicController.store')
+
 Route.get('files/:name', 'FileController.show')
 
 Route.group(() => {
-  Route.post('files', 'FileController.store')
+
 }).middleware(['auth'])
