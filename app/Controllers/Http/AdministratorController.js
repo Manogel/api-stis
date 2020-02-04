@@ -1,6 +1,6 @@
 'use strict'
 const Administrator = use('App/Models/Administrator')
-const stringWords = require('../../utils/StringWords')
+
 class AdministratorController {
   /**
    * Show a list of all administrators.

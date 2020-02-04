@@ -11,6 +11,15 @@ Route.put('administrators/:id', 'AdministratorController.update')
 Route.delete('administrators/:id', 'AdministratorController.destroy')
 Route.get('administrators', 'AdministratorController.index')
 
+Route.resource('references', 'ReferenceController').apiOnly().validator(new Map(
+  [
+    [
+      ['references.store'], ['Reference']
+    ]
+    // Other validation
+  ])
+)
+
 Route.post('sessions', 'SessionController.store').validator('Session')
 
 Route.post('passwords', 'ForgotPasswordController.store').validator(

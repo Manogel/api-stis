@@ -24,7 +24,7 @@ class User extends Model {
 
   getAge ({ birt_date }) {
     var d = new Date()
-    var date_birt = new Date(birt_date)
+    var date_birt = new Date(moment(birt_date, 'DD/MM/YYYY').format('YYYY-MM-DD'))
     var ano_atual = d.getFullYear()
     var mes_atual = d.getMonth() + 1
     var dia_atual = d.getDate()
@@ -46,7 +46,6 @@ class User extends Model {
   }
 
   setBirtDate (birt_date) {
-    console.log(birt_date)
     return moment(birt_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
   }
 }

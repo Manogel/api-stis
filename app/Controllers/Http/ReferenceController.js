@@ -1,5 +1,5 @@
 'use strict'
-
+const Reference = use('App/Models/Reference')
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,18 +18,8 @@ class ReferenceController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new reference.
-   * GET references/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    const references = await Reference.query().orderBy('id', 'asc').fetch()
+    return references
   }
 
   /**
@@ -41,30 +31,9 @@ class ReferenceController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-  }
-
-  /**
-   * Display a single reference.
-   * GET references/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing reference.
-   * GET references/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    const data = request.only(['title', 'description'])
+    const reference = await Reference.create(data)
+    return reference
   }
 
   /**
@@ -76,6 +45,13 @@ class ReferenceController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const reference = await Reference.find(params.id)
+    const data = request.all()
+
+    reference.merge(data)
+    await reference.save()
+
+    return reference
   }
 
   /**
@@ -87,6 +63,9 @@ class ReferenceController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const reference = await Reference.find(params.id)
+    await reference.delete()
+    return true
   }
 }
 
