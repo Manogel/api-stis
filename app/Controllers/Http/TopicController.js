@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Topic = use('App/Models/Topic')
+
 /**
  * Resourceful controller for interacting with topics
  */
@@ -18,18 +20,8 @@ class TopicController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new topic.
-   * GET topics/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    const topics = await Topic.query().orderBy('id', 'asc').fetch()
+    return topics
   }
 
   /**
@@ -41,30 +33,16 @@ class TopicController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-  }
-
-  /**
-   * Display a single topic.
-   * GET topics/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing topic.
-   * GET topics/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    const data = request.only([
+      'title_br',
+      'title_en',
+      'introduction_br',
+      'introduction_en',
+      'description_br',
+      'description_en'
+    ])
+    const topic = await Topic.create(data)
+    return topic
   }
 
   /**
@@ -76,6 +54,13 @@ class TopicController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const topic = await Topic.find(params.id)
+    const data = request.all()
+
+    topic.merge(data)
+    await topic.save()
+
+    return topic
   }
 
   /**
@@ -87,6 +72,9 @@ class TopicController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const topic = await Topic.find(params.id)
+    await topic.delete()
+    return true
   }
 }
 

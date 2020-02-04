@@ -16,7 +16,14 @@ Route.resource('references', 'ReferenceController').apiOnly().validator(new Map(
     [
       ['references.store'], ['Reference']
     ]
-    // Other validation
+  ])
+)
+
+Route.resource('topics', 'TopicController').apiOnly().apiOnly().validator(new Map(
+  [
+    [
+      ['topics.store'], ['Topic']
+    ]
   ])
 )
 
