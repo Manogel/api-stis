@@ -1,23 +1,22 @@
-'use strict'
-
-const Antl = use('Antl')
+const Antl = use("Antl");
 
 class Topic {
-  get messages () {
-    return Antl.list('validation')
+  get messages() {
+    return Antl.list("validation");
   }
 
-  get validateAll () {
-    return true
+  get validateAll() {
+    return true;
   }
 
-  get rules () {
+  get rules() {
     return {
-      title_br: 'required',
-      description_br: 'required',
-      introduction_br: 'required'
-    }
+      title_br: "required",
+      description_br: "required",
+      introduction_br: "required",
+      author_id: "required"
+    };
   }
 }
 
-module.exports = Topic
+module.exports = Topic;

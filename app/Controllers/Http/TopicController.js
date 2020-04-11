@@ -1,4 +1,3 @@
-'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -39,7 +38,9 @@ class TopicController {
       'introduction_br',
       'introduction_en',
       'description_br',
-      'description_en'
+      'description_en',
+      'sex',
+      'author_id'
     ])
     const topic = await Topic.create(data)
     return topic

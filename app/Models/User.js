@@ -1,6 +1,4 @@
-
 /* eslint-disable camelcase */
-'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
@@ -27,18 +25,23 @@ class User extends Model {
   }
 
   getAge ({ birt_date }) {
-    var d = new Date()
-    var date_birt = new Date(moment(birt_date, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-    var ano_atual = d.getFullYear()
-    var mes_atual = d.getMonth() + 1
-    var dia_atual = d.getDate()
+    const d = new Date()
+    const date_birt = new Date(
+      moment(birt_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    )
+    const ano_atual = d.getFullYear()
+    const mes_atual = d.getMonth() + 1
+    const dia_atual = d.getDate()
 
-    var moth_birth = date_birt.getMonth() + 1
-    var day_birth = date_birt.getDate() + 1
+    const moth_birth = date_birt.getMonth() + 1
+    const day_birth = date_birt.getDate() + 1
 
-    var age = ano_atual - date_birt.getFullYear()
+    let age = ano_atual - date_birt.getFullYear()
 
-    if (mes_atual < moth_birth || mes_atual == moth_birth && dia_atual < day_birth) {
+    if (
+      mes_atual < moth_birth ||
+      (mes_atual == moth_birth && dia_atual < day_birth)
+    ) {
       age--
     }
 
