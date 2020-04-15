@@ -31,7 +31,7 @@ class TopicController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, response, auth }) {
     const data = request.only([
       'title_br',
       'title_en',
@@ -39,10 +39,14 @@ class TopicController {
       'introduction_en',
       'description_br',
       'description_en',
-      'sex',
-      'author_id'
+      'sex'
     ])
-    const topic = await Topic.create(data)
+    const { files } = request.only(['files'])
+    const topic = await Topic.create({ ...data, author_id: auth.user.id })
+
+    if (files) {
+      await topic.files().createMany(files)
+    }
     return topic
   }
 
@@ -55,12 +59,14 @@ class TopicController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const { files = null, ...rest } = request.all()
     const topic = await Topic.find(params.id)
-    const data = request.all()
 
-    topic.merge(data)
+    topic.merge(rest)
     await topic.save()
-
+    if (files) {
+      await topic.files().createMany(files)
+    }
     return topic
   }
 

@@ -28,23 +28,12 @@ class FileController {
 
   async store ({ request, response, auth }) {
     try {
-      if (!request.file('file')) return
-
-      const upload = request.file('file', { size: '10mb' })
-      const fileNameHash = `${Date.now()}.${upload.subtype}`
-      await upload.move(Helpers.tmpPath('uploads'), { name: fileNameHash })
-
-      if (!upload.moved()) {
-        throw upload.error()
-      }
-
-      const { description, reference, topic_id } = request.all()
+      const { description_br, description_en, topic_id, url } = request.all()
 
       const file = await File.create({
-        file: fileNameHash,
-        name: upload.clientName,
-        description,
-        reference,
+        url,
+        description_br,
+        description_en,
         topic_id
       })
 
@@ -61,20 +50,7 @@ class FileController {
     try {
       const file = await File.find(id)
 
-      var fileSaved = file.file
-      var fileNameSaved = file.name
-
-      if (request.file('file')) {
-        const upload = request.file('file', { size: '10mb' })
-        fileSaved = `${Date.now()}.${upload.subtype}`
-        await upload.move(Helpers.tmpPath('uploads'), { name: fileSaved })
-        if (!upload.moved()) {
-          throw upload.error()
-        }
-        fileNameSaved = upload.clientName
-      }
-
-      file.merge({ ...data, name: fileNameSaved, file: fileSaved })
+      file.merge(data)
       await file.save()
 
       return file
